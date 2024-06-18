@@ -33,16 +33,17 @@ from tools.bigquery import bigquery
     help="Chronicle CLI is a CLI tool for managing Chronicle user workflows for e.g. Feed Management workflows."
 )
 def cli() -> None:
-  """Chronicle CLI commands."""
-  if not os.path.exists(chronicle_auth.CHRONICLE_CLI_ROOT_DIR):
-    click.echo(
-        "'~/.chronicle_cli' directory is not present.\nCreating directory...")
-    os.mkdir(chronicle_auth.CHRONICLE_CLI_ROOT_DIR)
-    if WIN:
-      subprocess.call(["attrib", "+H", chronicle_auth.CHRONICLE_CLI_ROOT_DIR])
-    click.echo(
-        f"Directory '{chronicle_auth.CHRONICLE_CLI_ROOT_DIR}' created successfully."
-    )
+  pass
+  # """Chronicle CLI commands."""
+  # if not os.path.exists(chronicle_auth.CHRONICLE_CLI_ROOT_DIR):
+  #   click.echo(
+  #       "'~/.chronicle_cli' directory is not present.\nCreating directory...")
+  #   os.mkdir(chronicle_auth.CHRONICLE_CLI_ROOT_DIR)
+  #   if WIN:
+  #     subprocess.call(["attrib", "+H", chronicle_auth.CHRONICLE_CLI_ROOT_DIR])
+  #   click.echo(
+  #       f"Directory '{chronicle_auth.CHRONICLE_CLI_ROOT_DIR}' created successfully."
+  #   )
 
 
 cli.add_command(feeds)
