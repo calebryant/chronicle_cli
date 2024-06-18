@@ -44,10 +44,9 @@ def initialize_http_session(credential_file_path: AnyStr) -> Any:
   Returns:
     HTTP session object to send authorized requests and receive responses.
   """
-  # credentials = service_account.Credentials.from_service_account_file(
-  #     filename=os.path.abspath(credential_file_path or default_cred_file_path),
-  #     scopes=AUTHORIZATION_SCOPES)
-  credentials, _ = google.auth.default()
+  credentials = service_account.Credentials.from_service_account_file(
+      filename=os.path.abspath(credential_file_path or default_cred_file_path),
+      scopes=AUTHORIZATION_SCOPES)
   return requests.AuthorizedSession(credentials)
 
 
@@ -63,8 +62,10 @@ def initialize_dataplane_http_session(credential_file_path: AnyStr) -> Any:
   Returns:
     HTTP session object to send authorized requests and receive responses.
   """
-  # credentials = service_account.Credentials.from_service_account_file(
-  #     filename=os.path.abspath(credential_file_path or default_cred_file_path),
-  #     scopes=DATAPLANE_AUTHORIZATION_SCOPES)
-  credentials, _ = google.auth.default()
+  if os.path.isfile(str(credential_file_path)):
+    credentials = service_account.Credentials.from_service_account_file(
+        filename=os.path.abspath(credential_file_path or default_cred_file_path),
+        scopes=DATAPLANE_AUTHORIZATION_SCOPES)
+  else:
+    credentials, _ = google.auth.default()
   return requests.AuthorizedSession(credentials)
