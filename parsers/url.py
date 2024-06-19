@@ -33,6 +33,7 @@ PATH_DICT = {
     'status': 'tools/cbnParsers',
     'list_errors': 'tools/cbnParsers:listCbnParserErrors',
     # Dataplane APIs
+    'activate_extension': f'{PARENT}/parserExtensions/{{parser_extension}}:activate',
     'activate_parser': f'{PARENT}/parsers/{{parser}}:activate',
     'deactivate_parser': f'{PARENT}/parsers/{{parser}}:deactivate',
     'classify_log_type': 'projects/{project}/locations/{location}/instances/{instance}/logs:classify',

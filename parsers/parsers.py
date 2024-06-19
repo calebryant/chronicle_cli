@@ -16,6 +16,7 @@
 
 import click
 
+from parsers.commands import activate_extension
 from parsers.commands import activate_parser
 from parsers.commands import archive
 from parsers.commands import classify_log_type
@@ -45,6 +46,7 @@ def parsers() -> None:
   """Group of commands to interact with Parser APIs."""
 
 
+parsers.add_command(activate_extension.activate_extension)
 parsers.add_command(activate_parser.activate_parser)
 parsers.add_command(archive.archive)
 parsers.add_command(classify_log_type.classify_log_type)

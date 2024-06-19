@@ -21,6 +21,7 @@ from typing import AnyStr, Any
 from google.auth.transport import requests
 from google.oauth2 import service_account
 import google.auth
+from google.auth import impersonated_credentials, default
 
 CHRONICLE_CLI_ROOT_DIR = os.path.join(
     str(pathlib.Path.home()), ".chronicle_cli")
@@ -66,6 +67,18 @@ def initialize_dataplane_http_session(credential_file_path: AnyStr) -> Any:
     credentials = service_account.Credentials.from_service_account_file(
         filename=os.path.abspath(credential_file_path or default_cred_file_path),
         scopes=DATAPLANE_AUTHORIZATION_SCOPES)
+    return requests.AuthorizedSession(credentials) # remove later
   else:
-    credentials, _ = google.auth.default()
-  return requests.AuthorizedSession(credentials)
+    # This is for user authentication,
+    # We should use this in the future but SA impersonation is already working so sticking with that for now.
+    # credentials, _ = google.auth.default()
+
+    target_principal = "parser-service-account-write@chronicle-orchestration.iam.gserviceaccount.com"
+    default_creds, _ = default()
+    impersonated_creds = impersonated_credentials.Credentials(
+      source_credentials=default_creds,
+      target_principal=target_principal,
+      target_scopes=DATAPLANE_AUTHORIZATION_SCOPES,
+    )
+    return requests.AuthorizedSession(impersonated_creds)
+  # return requests.AuthorizedSession(credentials)
